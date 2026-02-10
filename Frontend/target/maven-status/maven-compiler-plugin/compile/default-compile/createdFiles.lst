@@ -1,0 +1,15 @@
+com\example\SmartGov\mapper\UserMapper.class
+com\example\SmartGov\entity\User.class
+com\example\SmartGov\exception\GlobalExceptionHandler.class
+com\example\SmartGov\enums\State.class
+com\example\SmartGov\exception\ResouceNotFoundException.class
+com\example\SmartGov\dto\UserDto.class
+com\example\SmartGov\service\UserService.class
+com\example\SmartGov\enums\ROLES.class
+com\example\SmartGov\SmartGovApplication.class
+com\example\SmartGov\enums\Gender.class
+com\example\SmartGov\payload\ApiResponse.class
+com\example\SmartGov\payload\ApiResponse$Builder.class
+com\example\SmartGov\controller\UserController.class
+com\example\SmartGov\repository\UserRepository.class
+com\example\SmartGov\enums\District.class
