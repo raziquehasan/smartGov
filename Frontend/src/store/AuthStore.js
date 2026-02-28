@@ -1,9 +1,24 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware'; // Persist import karein
 
-// 'export const' likhna zaroori hai tabhi { useAuthStore } kaam karega
-export const useAuthStore = create((set) => ({
-  isAuthenticated: false,
-  user: null,
-  login: (userData) => set({ isAuthenticated: true, user: userData }),
-  logout: () => set({ isAuthenticated: false, user: null }),
-}));
+export const useAuthStore = create(
+  persist(
+    (set) => ({
+      user: null,
+      isAuthenticated: false,
+
+      login: (userData) => set({ 
+        user: userData, 
+        isAuthenticated: true 
+      }),
+
+      logout: () => set({ 
+        user: null, 
+        isAuthenticated: false 
+      }),
+    }),
+    {
+      name: 'smartgov-auth-storage', // LocalStorage mein is naam se save hoga
+    }
+  )
+);

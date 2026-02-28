@@ -2,9 +2,10 @@ import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
-import Dashboard from '../pages/Dashboard'; // Citizen Dashboard
-import OfficerDashboard from '../pages/OfficerDashboard'; // Officer Dashboard
+import Dashboard from '../pages/Dashboard';
+import OfficerDashboard from '../pages/OfficerDashboard';
 import AdminDashboard from '../pages/AdminDashboard'; 
+import Profile from '../pages/Profile';
 import ProtectedRoute from './ProtectedRoute';
 
 const AppRoutes = () => {
@@ -14,7 +15,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* Citizen Only Route */}
+      {/* Citizen Access */}
       <Route 
         path="/dashboard" 
         element={
@@ -24,7 +25,7 @@ const AppRoutes = () => {
         } 
       />
 
-      {/* Officer Only Route */}
+      {/* Officer & Admin Access */}
       <Route 
         path="/officer-dashboard" 
         element={
@@ -33,18 +34,27 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } 
       />
-      // AppRoutes.jsx mein ye route add karein:
-<Route 
-  path="/admin-dashboard" 
-  element={
-    <ProtectedRoute allowedRoles={['Admin']}>
-      <AdminDashboard />
-    </ProtectedRoute>
-  } 
-/>
+
+      {/* Admin Only Access */}
+      <Route
+        path="/admin-dashboard"
+        element={
+          <ProtectedRoute allowedRoles={["Admin"]}>
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Authenticated Profile */}
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
-    // AppRoutes.jsx mein ye route add karein
-  
   );
 };
 
