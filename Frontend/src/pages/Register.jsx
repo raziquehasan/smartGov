@@ -84,7 +84,7 @@ const Register = () => {
       email: email,
       state: state,                 // selected state
       password: password,
-      otpToken: "default_token"     // placeholder to satisfy backend if needed
+      otpCode: ""                  // Changed from otpToken to match backend
     };
 
     setLoading(true);
