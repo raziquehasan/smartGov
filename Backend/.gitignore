@@ -58,3 +58,5 @@ build/
 hs_err_pid*
 replay_pid*
 >>>>>>> bc1396f52f5c21c251eda1a446a07262f9563e44
+# Environment config
+Backend/src/main/resources/application.properties

@@ -30,7 +30,7 @@ public class RegisterRequest {
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
-    @NotBlank(message = "OTP token is required")
-    private String otpToken; // Added for OTP verification
+    @NotBlank(message = "OTP is required")
+    private String otpCode;
 
 }
