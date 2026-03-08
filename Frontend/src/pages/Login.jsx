@@ -5,33 +5,52 @@ import { useAuthStore } from '../store/AuthStore';
 const Login = () => {
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
-  
+
   const [formData, setFormData] = useState({
     identifier: '',
     password: '',
     role: 'Citizen'
   });
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    
-    // Fake user data simulation
-    const userData = {
-      name: "Sadiya Shaikh",
-      role: formData.role, 
-      id: formData.identifier
-    };
 
-    // 1. Store mein user information save karein
-    login(userData);
-    
-    // 2. Role-Based Redirection Logic
-    // Agar role 'Officer' ya 'Admin' hai toh officer console par bhejein
-    if (formData.role === 'Officer' || formData.role === 'Admin') {
-      navigate('/officer-dashboard');
-    } else {
-      // Warna normal citizen dashboard par
-      navigate('/dashboard');
+    try {
+      const response = await fetch('http://localhost:8080/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.identifier, // Backend expects email as identifier
+          password: formData.password
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Store mein dynamic user information save karein
+        login({
+          name: data.firstName,
+          email: data.email,
+          role: data.role || formData.role,
+          token: data.token,
+          profilePicture: data.profilePicture // Add this line
+        });
+
+        // Role-Based Redirection
+        if (data.role === 'Officer' || data.role === 'Admin' || formData.role === 'Officer' || formData.role === 'Admin') {
+          navigate('/officer-dashboard');
+        } else {
+          navigate('/dashboard');
+        }
+      } else {
+        alert(data.message || "Invalid credentials");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Failed to connect to server. Make sure backend is running.");
     }
   };
 
@@ -61,12 +80,11 @@ const Login = () => {
               <button
                 key={r}
                 type="button"
-                onClick={() => setFormData({...formData, role: r})}
-                className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all duration-200 ${
-                  formData.role === r 
-                    ? 'bg-white text-blue-700 shadow-md' 
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
+                onClick={() => setFormData({ ...formData, role: r })}
+                className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all duration-200 ${formData.role === r
+                  ? 'bg-white text-blue-700 shadow-md'
+                  : 'text-slate-600 hover:text-slate-900'
+                  }`}
               >
                 {r}
               </button>
@@ -76,29 +94,29 @@ const Login = () => {
           <form onSubmit={handleLogin} className="space-y-5 text-left">
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">Email or Citizen ID</label>
-              <input 
+              <input
                 required
-                type="text" 
+                type="text"
                 value={formData.identifier}
-                onChange={(e) => setFormData({...formData, identifier: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all"
                 placeholder="Enter your ID"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">Security Password</label>
-              <input 
+              <input
                 required
-                type="password" 
+                type="password"
                 value={formData.password}
-                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all"
                 placeholder="••••••••"
               />
             </div>
 
-            <button 
+            <button
               type="submit"
               className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 active:scale-[0.98] transition-all shadow-lg shadow-blue-500/25"
             >

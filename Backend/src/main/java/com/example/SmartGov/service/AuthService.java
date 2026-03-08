@@ -73,7 +73,7 @@ public class AuthService {
         String token = jwtService.generateToken(userDetails);
 
         // Create AuthResponse using constructor
-        return new AuthResponse(token, user.getFirstName(), user.getEmail());
+        return new AuthResponse(token, user.getFirstName(), user.getEmail(), user.getProfilePicture());
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -81,9 +81,7 @@ public class AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
-                        request.getPassword()
-                )
-        );
+                        request.getPassword()));
 
         // Get user from database
         User user = userRepository.findByEmail(request.getEmail())
@@ -96,7 +94,7 @@ public class AuthService {
         String token = jwtService.generateToken(userDetails);
 
         // Create AuthResponse using constructor
-        return new AuthResponse(token, user.getFirstName(), user.getEmail());
+        return new AuthResponse(token, user.getFirstName(), user.getEmail(), user.getProfilePicture());
     }
 
     private UserDetails createUserDetails(User user) {

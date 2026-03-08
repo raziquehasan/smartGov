@@ -73,8 +73,8 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
         }
 
-        // Verify OTP before creating account
-        otpService.verifyOTPByEmail(request.getEmail(), request.getOtpCode());
+        // Verify OTP before creating account (Optional/Skipped as per user request)
+        // otpService.verifyOTPByEmail(request.getEmail(), request.getOtpCode());
 
         AuthResponse response = authService.register(request);
 

@@ -7,15 +7,19 @@ export const useAuthStore = create(
       user: null,
       isAuthenticated: false,
 
-      login: (userData) => set({ 
-        user: userData, 
-        isAuthenticated: true 
+      login: (userData) => set({
+        user: userData,
+        isAuthenticated: true
       }),
 
-      logout: () => set({ 
-        user: null, 
-        isAuthenticated: false 
+      logout: () => set({
+        user: null,
+        isAuthenticated: false
       }),
+
+      updateProfilePicture: (base64Image) => set((state) => ({
+        user: { ...state.user, profilePicture: base64Image }
+      })),
     }),
     {
       name: 'smartgov-auth-storage', // LocalStorage mein is naam se save hoga

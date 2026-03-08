@@ -38,8 +38,8 @@ const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPayModalOpen, setIsPayModalOpen] = useState(false);
 
-  // Filters issues specifically for Sadiya/User
-  const userIssues = issues.filter(i => i.citizen === user?.name || i.citizen === "Sadiya Shaikh");
+  // Filters issues specifically for User
+  const userIssues = issues.filter(i => i.citizen === user?.name || i.email === user?.email);
 
   return (
     <div className="bg-slate-50 dark:bg-slate-950 min-h-screen p-6 lg:p-12 transition-colors duration-500">
@@ -49,7 +49,7 @@ const Dashboard = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
           <div>
             <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">
-              {t.welcome}, {user?.name || 'Sadiya Shaikh'}
+              {t.welcome}, {user?.name || 'Guest'}
             </h1>
             <div className="flex items-center gap-2 mt-2">
               <span className="relative flex h-2 w-2">
