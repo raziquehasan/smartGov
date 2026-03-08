@@ -3,7 +3,7 @@ export const servicesData = [
 category: "IDENTITY & CIVIL",
 icon: "🆔",
 services: [
-{ name: "Aadhaar Complaint", link: "https://resident.uidai.gov.in/file-complaint", icon: "💳" },
+{ name: "Aadhaar Services", link: "https://myaadhaar.uidai.gov.in", icon: "💳" },
 { name: "Passport Seva", link: "https://www.passportindia.gov.in", icon: "🛂" },
 { name: "Voter ID Services", link: "https://voters.eci.gov.in", icon: "🗳️" },
 { name: "Public Grievance Portal (CPGRAMS)", link: "https://pgportal.gov.in", icon: "📝" },
