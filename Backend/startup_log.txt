@@ -1,0 +1,88 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< com.example:SmartGov >------------------------
+[INFO] Building SmartGov 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.3.4:run (default-cli) > test-compile @ SmartGov >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ SmartGov ---
+[INFO] skip non existing resourceDirectory C:\Users\asus\OneDrive\Desktop\SmartGov\smartGov\Backend\src\main\resources
+[INFO] skip non existing resourceDirectory C:\Users\asus\OneDrive\Desktop\SmartGov\smartGov\Backend\src\main\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ SmartGov ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 39 source files with javac [debug parameters release 17] to target\classes
+[WARNING] /C:/Users/asus/OneDrive/Desktop/SmartGov/smartGov/Backend/src/main/java/com/example/SmartGov/entity/User.java:[49,19] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/asus/OneDrive/Desktop/SmartGov/smartGov/Backend/src/main/java/com/example/SmartGov/entity/User.java:[52,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ SmartGov ---
+[INFO] skip non existing resourceDirectory C:\Users\asus\OneDrive\Desktop\SmartGov\smartGov\Backend\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ SmartGov ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 4 source files with javac [debug parameters release 17] to target\test-classes
+[INFO] 
+[INFO] <<< spring-boot:3.3.4:run (default-cli) < test-compile @ SmartGov <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.3.4:run (default-cli) @ SmartGov ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2026-03-08T23:46:48.265+05:30  INFO 47144 --- [           main] c.example.SmartGov.SmartGovApplication   : Starting SmartGovApplication using Java 17.0.17 with PID 47144 (C:\Users\asus\OneDrive\Desktop\SmartGov\smartGov\Backend\target\classes started by asus in C:\Users\asus\OneDrive\Desktop\SmartGov\smartGov\Backend)
+2026-03-08T23:46:48.268+05:30  INFO 47144 --- [           main] c.example.SmartGov.SmartGovApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-03-08T23:46:50.067+05:30  INFO 47144 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-08T23:46:50.182+05:30  INFO 47144 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 100 ms. Found 2 JPA repository interfaces.
+2026-03-08T23:46:51.566+05:30  INFO 47144 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-03-08T23:46:51.590+05:30  INFO 47144 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-08T23:46:51.590+05:30  INFO 47144 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2026-03-08T23:46:51.713+05:30  INFO 47144 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-03-08T23:46:51.720+05:30  INFO 47144 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3350 ms
+2026-03-08T23:46:52.014+05:30 ERROR 47144 --- [           main] o.s.b.web.embedded.tomcat.TomcatStarter  : Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'jwtAuthenticationFilter' defined in file [C:\Users\asus\OneDrive\Desktop\SmartGov\smartGov\Backend\target\classes\com\example\SmartGov\security\JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'customerUserDetailService' defined in file [C:\Users\asus\OneDrive\Desktop\SmartGov\smartGov\Backend\target\classes\com\example\SmartGov\service\CustomerUserDetailService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userRepository' defined in com.example.SmartGov.repository.UserRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
+2026-03-08T23:46:52.106+05:30  INFO 47144 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-03-08T23:46:52.124+05:30  WARN 47144 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2026-03-08T23:46:52.142+05:30  INFO 47144 --- [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-03-08T23:46:52.168+05:30 ERROR 47144 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  15.496 s
+[INFO] Finished at: 2026-03-08T23:46:52+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:3.3.4:run (default-cli) on project SmartGov: Process terminated with exit code: 1 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

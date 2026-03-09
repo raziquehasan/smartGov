@@ -32,7 +32,6 @@ public class OtpService {
     @Value("${spring.mail.username:noreply@smartgov.in}")
     private String fromEmail;
 
-
     public OtpService(OtpVerificationRepository otpRepository, JavaMailSender mailSender) {
         this.otpRepository = otpRepository;
         this.mailSender = mailSender;
@@ -114,7 +113,7 @@ public class OtpService {
     }
 
     public boolean isEmailVerified(String email) {
-        Optional<OtpVerification> otpOpt = otpRepository.findByEmailAndOtpTypeAndVerifiedFalse(
+        Optional<OtpVerification> otpOpt = otpRepository.findFirstByEmailAndOtpTypeAndVerifiedTrueOrderByCreatedAtDesc(
                 email, OTPType.REGISTRATION);
 
         if (otpOpt.isEmpty()) {
@@ -122,7 +121,7 @@ public class OtpService {
         }
 
         OtpVerification otp = otpOpt.get();
-        return otp.getVerified() && otp.getExpiresAt().isAfter(LocalDateTime.now());
+        return otp.getExpiresAt().isAfter(LocalDateTime.now());
     }
 
     private void sendOTPEmail(String toEmail, String otpCode) {
@@ -144,8 +143,7 @@ public class OtpService {
                     "Your OTP for SmartGov registration is: " + otpCode + "\n\n" +
                             "This OTP is valid for " + otpExpiryMinutes + " minutes.\n" +
                             "If you didn't request this, please ignore this email.\n\n" +
-                            "Thank you,\nSmartGov Team"
-            );
+                            "Thank you,\nSmartGov Team");
 
             mailSender.send(message);
             System.out.println("OTP email sent to: " + toEmail);
