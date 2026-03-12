@@ -57,13 +57,10 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "profile_picture", columnDefinition = "TEXT")
-    private String profilePicture; // Base64 or URL
-
     // Factory method (optional - if you want to use createNewUser)
     public static User createNewUser(String firstName, String lastName,
-            String mobileNumber, String email,
-            States state, ROLES role) {
+                                     String mobileNumber, String email,
+                                     States state, ROLES role) {
         User user = new User();
         user.setFirstName(firstName);
         user.setLastName(lastName);

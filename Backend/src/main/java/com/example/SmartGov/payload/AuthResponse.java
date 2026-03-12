@@ -4,19 +4,17 @@ public class AuthResponse {
     private String token;
     private String firstName;
     private String email;
-    private String profilePicture; // Keep profilePicture
-    private String error; // Restore error field
+    private String error;
 
     // Default constructor (REQUIRED by Spring)
     public AuthResponse() {
     }
 
-    // Parameterized constructor for success
-    public AuthResponse(String token, String firstName, String email, String profilePicture) {
+    // Parameterized constructor (yeh add karein)
+    public AuthResponse(String token, String firstName, String email) {
         this.token = token;
         this.firstName = firstName;
         this.email = email;
-        this.profilePicture = profilePicture;
     }
 
     // Another constructor for errors
@@ -49,16 +47,6 @@ public class AuthResponse {
         this.email = email;
     }
 
-    // Getters and Setters for profilePicture
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
-    // Getters and Setters for error
     public String getError() {
         return error;
     }

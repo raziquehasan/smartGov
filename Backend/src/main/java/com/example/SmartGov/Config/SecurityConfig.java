@@ -17,14 +17,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import com.example.SmartGov.security.JwtAuthenticationFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-// @RequiredArgsConstructor REMOVE THIS LINE
 public class SecurityConfig {
 
     // Constructor injection manually
@@ -35,55 +32,43 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter)
-            throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll() // Auth endpoints
-                        .requestMatchers("/smartGov/**").permitAll() // Your SmartGov endpoints
-                        .anyRequest().authenticated())
+                        .requestMatchers("/api/auth/**").permitAll()  // Auth endpoints
+                        .requestMatchers("/smartGov/**").permitAll()  // Your SmartGov endpoints
+                        .anyRequest().authenticated()
+                )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthenticationFilter,
-                        org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                );
 
         return http.build();
     }
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // सभी allowed origins add करें
         configuration.setAllowedOrigins(Arrays.asList(
-                "http://127.0.0.1:5500", // आपका Live Server
-                "http://localhost:5500", // Localhost Live Server
-                "http://localhost:3000", // React development
-                "http://127.0.0.1:3000", // React development
-                "http://localhost:5173", // Vite React development
-                "http://127.0.0.1:5173" // Vite React development
+                "http://localhost:5173"
         ));
 
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        configuration.setAllowedHeaders(Arrays.asList(
-                "Authorization",
-                "Content-Type",
-                "Accept",
-                "X-Requested-With",
-                "Cache-Control",
-                "Origin"));
-        configuration.setExposedHeaders(Arrays.asList(
-                "Authorization",
-                "Content-Type"));
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L); // 1 hour
+        configuration.setAllowedMethods(Arrays.asList(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
+        ));
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+
         source.registerCorsConfiguration("/**", configuration);
+
         return source;
     }
 

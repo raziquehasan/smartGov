@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/smartGov")
+@CrossOrigin(origins = "http://localhost:5173")
 @AllArgsConstructor
 
 public class UserController {

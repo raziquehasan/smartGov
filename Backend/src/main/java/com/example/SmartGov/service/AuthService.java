@@ -8,6 +8,7 @@ import com.example.SmartGov.exception.DuplicateResourceException;
 import com.example.SmartGov.payload.AuthResponse;
 import com.example.SmartGov.repository.UserRepository;
 import com.example.SmartGov.security.JwtService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,18 +20,13 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
+@AllArgsConstructor
 public class AuthService {
 
-    @Autowired
+
     private UserRepository userRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
     private JwtService jwtService;
 
     public boolean existsByEmail(String email) {
@@ -73,7 +69,7 @@ public class AuthService {
         String token = jwtService.generateToken(userDetails);
 
         // Create AuthResponse using constructor
-        return new AuthResponse(token, user.getFirstName(), user.getEmail(), user.getProfilePicture());
+        return new AuthResponse(token, user.getFirstName(), user.getEmail());
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -81,7 +77,9 @@ public class AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
-                        request.getPassword()));
+                        request.getPassword()
+                )
+        );
 
         // Get user from database
         User user = userRepository.findByEmail(request.getEmail())
@@ -94,7 +92,7 @@ public class AuthService {
         String token = jwtService.generateToken(userDetails);
 
         // Create AuthResponse using constructor
-        return new AuthResponse(token, user.getFirstName(), user.getEmail(), user.getProfilePicture());
+        return new AuthResponse(token, user.getFirstName(), user.getEmail());
     }
 
     private UserDetails createUserDetails(User user) {

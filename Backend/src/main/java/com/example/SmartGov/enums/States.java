@@ -36,5 +36,5 @@ public enum States {
     JAMMU_AND_KASHMIR,
     LADAKH,
     LAKSHADWEEP,
-    PUDUCHERRY;
+    PUDUCHERRY
 }

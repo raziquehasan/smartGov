@@ -37,50 +37,53 @@ public class OtpService {
         this.mailSender = mailSender;
     }
 
-    public String generateOTP() {
+    private String generateOTP() {
         Random random = new Random();
         return String.format("%06d", random.nextInt(999999));
     }
 
     public OtpVerification createAndSendOTP(OtpRequestDto request) {
-        // Check resend limit
+
+        OTPType type = OTPType.valueOf(request.getType().toUpperCase());
+
+        // Rate limit check
         LocalDateTime lastHour = LocalDateTime.now().minusHours(1);
         Long recentRequests = otpRepository.countByEmailAndOtpTypeAndCreatedAtAfter(
-                request.getEmail(),
-                OTPType.valueOf(request.getType().toUpperCase()),
-                lastHour);
+                request.getEmail(), type, lastHour);
 
         if (recentRequests >= maxResend) {
             throw new RuntimeException("Maximum resend attempts reached. Please try again later.");
         }
 
+        // Invalidate old OTPs
+        otpRepository.markAllAsVerified(request.getEmail(), type);
+
         // Generate OTP
         String otpCode = generateOTP();
 
-        // Create OTP record
         OtpVerification otp = new OtpVerification();
         otp.setEmail(request.getEmail());
         otp.setOtpCode(otpCode);
-        otp.setOtpType(OTPType.valueOf(request.getType().toUpperCase()));
+        otp.setOtpType(type);
         otp.setCreatedAt(LocalDateTime.now());
         otp.setExpiresAt(LocalDateTime.now().plusMinutes(otpExpiryMinutes));
         otp.setVerified(false);
         otp.setAttempts(0);
 
-        // Save OTP
         otp = otpRepository.save(otp);
 
-        // Send email (with null check)
         sendOTPEmail(request.getEmail(), otpCode);
 
         return otp;
     }
 
     public boolean verifyOTP(OtpVerificationDTO request) {
-        Optional<OtpVerification> otpOpt = otpRepository.findByEmailAndOtpCodeAndOtpTypeAndVerifiedFalse(
-                request.getEmail(),
-                request.getOtp(),
-                OTPType.valueOf(request.getType().toUpperCase()));
+
+        OTPType type = OTPType.valueOf(request.getType().toUpperCase());
+
+        Optional<OtpVerification> otpOpt =
+                otpRepository.findTopByEmailAndOtpTypeAndVerifiedFalseOrderByCreatedAtDesc(
+                        request.getEmail(), type);
 
         if (otpOpt.isEmpty()) {
             return false;
@@ -88,52 +91,47 @@ public class OtpService {
 
         OtpVerification otp = otpOpt.get();
 
-        // Check if expired
+        // Check expiry
         if (otp.getExpiresAt().isBefore(LocalDateTime.now())) {
-            otpRepository.delete(otp);
-            throw new RuntimeException("OTP has expired. Please request a new one.");
+            return false;
         }
 
         // Check attempts
         if (otp.getAttempts() >= maxAttempts) {
-            otpRepository.delete(otp);
-            throw new RuntimeException("Maximum verification attempts reached. Please request a new OTP.");
+            return false;
         }
 
-        otp.setAttempts(otp.getAttempts() + 1);
-        otpRepository.save(otp);
+        // Wrong OTP
+        if (!otp.getOtpCode().equals(request.getOtp())) {
+            otp.setAttempts(otp.getAttempts() + 1);
+            otpRepository.save(otp);
+            return false;
+        }
+
+        // Correct OTP
         otp.setVerified(true);
         otpRepository.save(otp);
-
-        otpRepository.markAllAsVerified(
-                request.getEmail(),
-                OTPType.valueOf(request.getType().toUpperCase()));
 
         return true;
     }
 
     public boolean isEmailVerified(String email) {
-        Optional<OtpVerification> otpOpt = otpRepository.findFirstByEmailAndOtpTypeAndVerifiedTrueOrderByCreatedAtDesc(
-                email, OTPType.REGISTRATION);
+
+        Optional<OtpVerification> otpOpt =
+                otpRepository.findTopByEmailAndOtpTypeOrderByCreatedAtDesc(
+                        email, OTPType.REGISTRATION);
 
         if (otpOpt.isEmpty()) {
             return false;
         }
 
         OtpVerification otp = otpOpt.get();
-        return otp.getExpiresAt().isAfter(LocalDateTime.now());
+
+        return otp.getVerified() && otp.getExpiresAt().isAfter(LocalDateTime.now());
     }
 
     private void sendOTPEmail(String toEmail, String otpCode) {
         try {
-            if (mailSender == null) {
-                // Log OTP to console if mailSender is not available
-                System.out.println("\n========================================");
-                System.out.println("OTP for " + toEmail + ": " + otpCode);
-                System.out.println("Valid until: " + LocalDateTime.now().plusMinutes(otpExpiryMinutes));
-                System.out.println("========================================");
-                return;
-            }
 
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(fromEmail);
@@ -141,19 +139,20 @@ public class OtpService {
             message.setSubject("SmartGov - Email Verification OTP");
             message.setText(
                     "Your OTP for SmartGov registration is: " + otpCode + "\n\n" +
-                            "This OTP is valid for " + otpExpiryMinutes + " minutes.\n" +
-                            "If you didn't request this, please ignore this email.\n\n" +
-                            "Thank you,\nSmartGov Team");
+                            "This OTP is valid for " + otpExpiryMinutes + " minutes.\n\n" +
+                            "SmartGov Team"
+            );
 
             mailSender.send(message);
             System.out.println("OTP email sent to: " + toEmail);
 
         } catch (Exception e) {
-            // If email fails, at least log the OTP for testing
-            System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
-            System.out.println("\n========================================");
+
+            System.err.println("Email failed: " + e.getMessage());
+
+            System.out.println("\n===============================");
             System.out.println("OTP for " + toEmail + ": " + otpCode);
-            System.out.println("========================================");
+            System.out.println("===============================");
         }
     }
 }

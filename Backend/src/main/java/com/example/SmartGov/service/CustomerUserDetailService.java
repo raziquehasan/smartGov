@@ -55,9 +55,9 @@ public class CustomerUserDetailService implements UserDetailsService {
         return buildUserDetails(user, authorities);
     }
 
-    /**
-     * Find user by email or other identifier
-     */
+
+     //Find user by email or other identifier
+
     private User findUserByIdentifier(String identifier) {
         // Try to find by email first (most common)
         return userRepository.findByEmail(identifier)
@@ -69,9 +69,8 @@ public class CustomerUserDetailService implements UserDetailsService {
                 .orElse(null);
     }
 
-    /**
-     * Convert user roles to Spring Security authorities
-     */
+    // Convert user roles to Spring Security authorities
+
     private Collection<? extends GrantedAuthority> getAuthorities(User user) {
         // Handle single role
         if (user.getRole() != null) {
@@ -83,8 +82,8 @@ public class CustomerUserDetailService implements UserDetailsService {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    /**
-     * Build Spring Security UserDetails object
+    /*
+     Build Spring Security UserDetails object
      */
     private UserDetails buildUserDetails(User user, Collection<? extends GrantedAuthority> authorities) {
         return org.springframework.security.core.userdetails.User.builder()
