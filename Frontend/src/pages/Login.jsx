@@ -57,12 +57,61 @@ const Login = () => {
   return (
     <div className="min-h-screen flex bg-slate-50">
       {/* Left Branding Side */}
-      <div className="hidden lg:flex w-1/2 bg-blue-900 items-center justify-center p-12 text-white text-left">
-        <div className="max-w-lg">
-          <h1 className="text-5xl font-bold mb-6 tracking-tight">SmartGov Portal</h1>
-          <p className="text-blue-100 text-lg leading-relaxed">
-            Securely access digital governance services. Your one-stop destination for transparency and civic engagement.
+      <div className="hidden lg:flex w-1/2 bg-blue-900 items-center justify-center p-16 text-white text-left relative overflow-hidden">
+        {/* Background Decorative Elements */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400 blur-[120px] rounded-full"></div>
+          <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-emerald-400 blur-[100px] rounded-full"></div>
+        </div>
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none"></div>
+
+        <div className="max-w-lg relative z-10 w-full">
+          {/* Trust Badges */}
+          <div className="flex gap-3 mb-10">
+            {['Secure Access', 'Data Protected', 'Gov Portal'].map((badge) => (
+              <span key={badge} className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] font-black uppercase tracking-widest text-blue-200">
+                {badge}
+              </span>
+            ))}
+          </div>
+
+          <h1 className="text-6xl font-black mb-4 tracking-tighter leading-none">
+            SmartGov <br />
+            <span className="text-blue-400">Portal</span>
+          </h1>
+          
+          <p className="text-blue-100/80 text-lg leading-relaxed mb-12 font-medium">
+            Empowering citizens through seamless digital governance and transparent public services.
           </p>
+
+          {/* Hero Illustration */}
+          <div className="mb-12 relative group">
+            <div className="absolute inset-0 bg-blue-500/20 blur-[60px] rounded-full scale-90 group-hover:scale-110 transition-transform duration-700"></div>
+            <img 
+              src="/images/login-hero.png" 
+              alt="Digital Governance Illustration" 
+              className="w-full h-auto relative z-10 drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform hover:-translate-y-2 transition-transform duration-500"
+            />
+          </div>
+
+          {/* Feature Highlights */}
+          <div className="grid gap-6">
+            {[
+              { icon: '🏛️', title: '100+ Government Services', desc: 'Instant access to all municipal departments.' },
+              { icon: '📊', title: 'Track Applications', desc: 'Real-time updates on your pending requests.' },
+              { icon: '🛡️', title: 'Secure Authentication', desc: 'Enterprise-grade protection for your identity.' }
+            ].map((feature, i) => (
+              <div key={i} className="flex gap-4 items-center group">
+                <div className="w-12 h-12 bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-blue-500/20 transition-colors duration-300">
+                  {feature.icon}
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-white group-hover:text-blue-400 transition-colors">{feature.title}</h4>
+                  <p className="text-xs text-blue-200/60">{feature.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

@@ -96,19 +96,57 @@ const Home = () => {
 
             <div className="space-y-6">
               {[
-                { title: "Digital Literacy Campaign 2026", desc: "Expanding technology access to rural areas.", date: "Feb 12, 2026", tag: "Education" },
-                { title: "Green City Waste Management", desc: "New smart bins installed across Zone-04.", date: "Feb 10, 2026", tag: "Civic" },
-                { title: "SME Tax Rebate Program", desc: "Apply for 15% discount on municipal taxes.", date: "Feb 08, 2026", tag: "Business" },
+                { 
+                  title: "Digital Literacy Campaign 2026", 
+                  desc: "Expanding technology access to rural areas.", 
+                  date: "Feb 12, 2026", 
+                  tag: "Education",
+                  image: "/images/digital-literacy.png"
+                },
+                { 
+                  title: "Green City Waste Management", 
+                  desc: "New smart bins installed across Zone-04.", 
+                  date: "Feb 10, 2026", 
+                  tag: "Civic",
+                  image: "/images/green-city.png"
+                },
+                { 
+                  title: "SME Tax Rebate Program", 
+                  desc: "Apply for 15% discount on municipal taxes.", 
+                  status: "Coming Soon", 
+                  tag: "Business",
+                  image: "/images/sme-business.png"
+                },
               ].map((news, i) => (
-                <div key={i} className="flex flex-col md:flex-row gap-6 p-6 rounded-[2rem] bg-white dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 hover:border-blue-500/30 transition-all group cursor-pointer shadow-sm hover:shadow-xl">
-                  <div className="w-full md:w-32 h-32 bg-slate-100 dark:bg-slate-800 rounded-2xl shrink-0 flex items-center justify-center text-slate-300 font-black text-[10px] uppercase tracking-tighter">
-                    Cover Image
+                <div key={i} className="flex flex-col md:flex-row gap-6 p-6 rounded-[2rem] bg-white dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 hover:border-blue-500/30 transition-all group cursor-pointer shadow-sm hover:shadow-xl overflow-hidden">
+                  <div className="w-full md:w-48 h-32 bg-slate-100 dark:bg-slate-800 rounded-2xl shrink-0 overflow-hidden flex items-center justify-center shadow-inner relative">
+                    <img 
+                      src={news.image} 
+                      alt={news.title} 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   </div>
-                  <div className="flex flex-col justify-center">
-                    <span className="text-[9px] font-black text-blue-500 uppercase mb-1">{news.tag}</span>
-                    <h4 className="font-bold text-xl text-slate-900 dark:text-slate-100 group-hover:text-blue-600 transition">{news.title}</h4>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 line-clamp-2">{news.desc}</p>
-                    <span className="text-[10px] text-slate-400 font-bold mt-4 block uppercase tracking-tighter italic">{news.date}</span>
+                  <div className="flex flex-col justify-center flex-1">
+                    <span className="text-[9px] font-black text-blue-500 uppercase mb-1 tracking-widest">{news.tag}</span>
+                    <h4 className="font-bold text-xl text-slate-900 dark:text-slate-100 group-hover:text-blue-600 transition tracking-tight">
+                      {news.title}
+                    </h4>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+                      {news.desc}
+                    </p>
+                    
+                    {news.status ? (
+                      <div className="mt-4 flex">
+                        <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-[10px] font-black uppercase tracking-widest rounded-full shadow-sm">
+                          {news.status}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-[10px] text-slate-400 font-bold mt-4 block uppercase tracking-tighter italic">
+                        {news.date}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
