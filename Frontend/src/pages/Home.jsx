@@ -52,7 +52,7 @@ const Home = () => {
           </div>
 
           <div className="max-w-2xl mx-auto relative z-50 transform hover:scale-[1.01] transition-transform shadow-2xl">
-            <SearchBar />
+            <Searchbar />
           </div>
         </div>
 
