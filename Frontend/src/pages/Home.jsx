@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
+import RegisteredCounter from '../components/RegisteredCounter';
 import { servicesData } from '../data/servicesData';
 
 const Home = () => {
@@ -45,6 +46,10 @@ const Home = () => {
           <p className="text-lg md:text-xl text-slate-300 mb-12 leading-relaxed max-w-2xl mx-auto font-medium opacity-90">
             Access hundreds of government services, track your applications, and connect with your local administration in just a few clicks.
           </p>
+
+          <div className="flex justify-center mb-16">
+            <RegisteredCounter />
+          </div>
 
           <div className="max-w-2xl mx-auto relative z-50 transform hover:scale-[1.01] transition-transform shadow-2xl">
             <SearchBar />

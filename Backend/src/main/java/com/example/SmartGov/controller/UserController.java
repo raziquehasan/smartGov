@@ -32,6 +32,11 @@ public class UserController {
        return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> getUserCount(){
+        return ResponseEntity.ok(userService.getUserCount());
+    }
+
     @GetMapping("/getUserBy/{id}")
     public UserDto getUserById(@PathVariable Long id){
         return userService.getUserById(id);
