@@ -31,4 +31,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
         // Find active users by state and role
         List<User> findByStateAndRoleAndIsActiveTrue(States state, ROLES role);
+
+        long countByIsActiveTrue();
 }

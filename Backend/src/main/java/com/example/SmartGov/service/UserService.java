@@ -190,6 +190,13 @@ public class UserService {
     }
 
     /**
+     * Gets the count of registered citizens (plus baseline of 50)
+     */
+    public long getUserCount() {
+        return userRepository.countByIsActiveTrue() + 50;
+    }
+
+    /**
      * Checks if email exists
      */
     public boolean emailExists(String email) {

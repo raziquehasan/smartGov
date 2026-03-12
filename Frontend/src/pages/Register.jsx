@@ -208,7 +208,7 @@ const Register = () => {
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
           {/* Full Name */}
           <div className="md:col-span-2">
-            <label className="block text-sm font-semibold text-slate-700 mb-1">Full Name (As per ID)</label>
+            <label className="block text-sm font-semibold text-slate-700 mb-1">Full Name (As per ID) <span className="text-red-500">*</span></label>
             <input
               type="text"
               value={fullName}
@@ -222,7 +222,7 @@ const Register = () => {
           {/* Email and OTP Section */}
           <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="relative">
-              <label className="block text-sm font-semibold text-slate-700 mb-1">Email Address</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1">Email Address <span className="text-red-500">*</span></label>
               <div className="flex gap-2">
                 <input
                   type="email"
@@ -233,14 +233,14 @@ const Register = () => {
                   required
                   disabled={otpVerified}
                 />
-                {!otpVerified && (
+                {!otpSent && !otpVerified && (
                   <button
                     type="button"
                     onClick={handleSendOtp}
-                    disabled={isSendingOtp || timer > 0}
+                    disabled={isSendingOtp}
                     className="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl font-semibold hover:bg-blue-100 transition disabled:opacity-50 whitespace-nowrap"
                   >
-                    {isSendingOtp ? 'Sending...' : timer > 0 ? `Resend in ${timer}s` : otpSent ? 'Resend OTP' : 'Send OTP'}
+                    {isSendingOtp ? 'Sending...' : 'Send OTP'}
                   </button>
                 )}
               </div>
@@ -270,13 +270,28 @@ const Register = () => {
                     {isVerifyingOtp ? 'Verifying...' : 'Verify'}
                   </button>
                 </div>
+                <div className="mt-2 flex justify-between items-center px-1">
+                  <p className="text-xs text-slate-500">
+                    {timer > 0 ? `Resend available in ${timer}s` : "Didn't receive code?"}
+                  </p>
+                  {!otpVerified && (
+                    <button
+                      type="button"
+                      onClick={handleSendOtp}
+                      disabled={isSendingOtp || timer > 0}
+                      className="text-xs font-bold text-blue-600 hover:text-blue-700 disabled:opacity-50 disabled:text-slate-400"
+                    >
+                      {isSendingOtp ? 'Sending...' : 'Resend OTP'}
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </div>
 
           {/* Mobile Number (phone) */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1">Mobile Number</label>
+            <label className="block text-sm font-semibold text-slate-700 mb-1">Mobile Number <span className="text-red-500">*</span></label>
             <input
               type="tel"
               value={mobileNumber}
@@ -314,7 +329,7 @@ const Register = () => {
 
           {/* State (required) */}
           <div className="md:col-span-2">
-            <label className="block text-sm font-semibold text-slate-700 mb-1">State</label>
+            <label className="block text-sm font-semibold text-slate-700 mb-1">State <span className="text-red-500">*</span></label>
             <select
               value={state}
               onChange={(e) => setState(e.target.value)}
@@ -330,7 +345,7 @@ const Register = () => {
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1">Password</label>
+            <label className="block text-sm font-semibold text-slate-700 mb-1">Password <span className="text-red-500">*</span></label>
             <input
               type="password"
               value={password}
@@ -344,7 +359,7 @@ const Register = () => {
 
           {/* Confirm Password */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1">Confirm Password</label>
+            <label className="block text-sm font-semibold text-slate-700 mb-1">Confirm Password <span className="text-red-500">*</span></label>
             <input
               type="password"
               value={confirmPassword}
